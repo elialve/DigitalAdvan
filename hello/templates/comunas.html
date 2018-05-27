@@ -1,0 +1,9 @@
+<h1>Hey aqui hay comunas</h1>
+<div class="form-group">
+    <label for="email">Comuna</label>
+    <select name="comuna" class="form-control" id="comuna">
+        {% for abc in obj %}
+          <option value="">{{abc.nombre_comuna}}</option>
+        {% endfor %}
+    </select>
+</div>
