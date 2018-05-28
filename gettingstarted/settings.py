@@ -76,17 +76,27 @@ WSGI_APPLICATION = 'gettingstarted.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+#BASE DE DATOS CON PROGRESQL NO TOCAR!
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'delqcgv4mvfmtg',
+#        'USER': 'dxkdnrxykyokwu',
+#        'PASSWORD': 'b5677ff1deb3ae15f68bbae2508daf12ec9a65d7ff6e4d82d3bc2e9c1e73d79b',
+#        'HOST': 'ec2-107-20-249-68.compute-1.amazonaws.com',
+#        'PORT': '5432',
+#    }
+#}
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'delqcgv4mvfmtg',
-        'USER': 'dxkdnrxykyokwu',
-        'PASSWORD': 'b5677ff1deb3ae15f68bbae2508daf12ec9a65d7ff6e4d82d3bc2e9c1e73d79b',
-        'HOST': 'ec2-107-20-249-68.compute-1.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'heroku_b5f4bd0f80d05ae',
+        'USER': 'b3aff38ecfb460',
+        'PASSWORD': '4829efaf',
+        'HOST': 'us-cdbr-iron-east-04.cleardb.net',
+        'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
