@@ -14,11 +14,10 @@ def index(request):
             if usuario.correo_usuario==correo and usuario.contrasenia_usuario==password:
                 request.session["user"]=correo
                 return render(request, 'index.html')
-            else:
-                context = {
-                    "message" : "Error, usuario o contraseña erroneo"
-                }
-                return render(request, 'index.html', context)
+        context = {
+            "message" : "Error, usuario o contraseña erroneo"
+        }
+        return render(request, 'index.html', context)
 
 def registro(request):
     if request.method =='GET':  
