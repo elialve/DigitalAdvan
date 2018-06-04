@@ -1,0 +1,60 @@
+{% extends "base.html" %} {% block content %}
+<div id="all">
+    <div id="content">
+        <div class="container">
+
+            <div class="col-md-12">
+
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>Productos</li>
+                </ul>
+                {% for row in productos %}
+                    <div class="col-md-3 col-sm-4">
+                        <div class="product">
+                            <div class="flip-container">
+                                <div class="flipper">
+                                    <div class="front">
+                                        <a href="/detail?codigoDebarra={{row[0]}}">
+                                            <img src="../static\Uploads\{{row[10]}}" alt="" class="img-responsive">
+                                        </a>
+                                    </div>
+                                    <div class="back">
+                                        <a href="/detail?codigoDebarra={{row[0]}}">
+                                            <img src="../static\Uploads\{{row[10]}}" alt="" class="img-responsive">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="/detail?prod={{row[0]}}" class="invisible">
+                                <img src="../static\Uploads\{{row[10]}}" alt="" class="img-responsive">
+                            </a>
+                            <div class="text">
+                                <h3>
+                                    <a href="/detail?codigoDebarra={{row[0]}}">{{row[1]}}</a>
+                                </h3>
+                                <p class="price">${{row[4]}}</p>
+                                <p class="buttons">
+                                    <a href="/detail?codigoDebarra={{row[0]}}" class="btn btn-default">View detail</a>
+                                    <a href="/agregarProductoAlCarro?id={{row[0]}}" class="btn btn-primary">
+                                        <i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                </p>
+                            </div>
+                            <!-- /.text -->
+                        </div>
+                        <!-- /.product -->
+                    </div>
+                <!-- /.products -->
+                {% endfor %}
+            </div>
+
+
+        </div>
+        <!-- /.col-md-9 -->
+    </div>
+    <!-- /.container -->
+</div>
+<!-- /#content -->
+{% endblock %}

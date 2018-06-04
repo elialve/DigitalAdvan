@@ -1,4 +1,3 @@
-{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,21 +20,21 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'>
 
     <!-- styles -->
-    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/animate.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/owl.carousel.css' %}" rel="stylesheet">
-    <link href="{% static 'css/owl.theme.css' %}" rel="stylesheet">
+    <link href="../static/css/font-awesome.css" rel="stylesheet">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/animate.min.css" rel="stylesheet">
+    <link href="../static/css/owl.carousel.css" rel="stylesheet">
+    <link href="../static/css/owl.theme.css" rel="stylesheet">
 
     <!-- theme stylesheet -->
-    <link href="{% static 'css/style.default.css' %}" rel="stylesheet" id="theme-stylesheet">
+    <link href="../static/css/style.default.css" rel="stylesheet" id="theme-stylesheet">
 
     <!-- your stylesheet with modifications -->
-    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    <link href="../static/css/custom.css" rel="stylesheet">
 
-    <script src="{% static 'js/respond.min.js'%}"></script>
-    <script src="{% static 'js/jquery-1.11.0.min.js'%}"></script>
-    <link rel="shortcut icon" href="{% static 'img/Logo.png' %}">
+    <script src="../static/js/respond.min.js"></script>
+    <script src="../static/js/jquery-1.11.0.min.js"></script>
+    <link rel="shortcut icon" href="../static/img/Logo.png">
 
 
 
@@ -52,7 +51,20 @@
             </div>
             <div class="col-md-6" data-animate="fadeInDown">
                 <ul class="menu">
-              
+                    {% if not request.session.user %}
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
+                    </li>
+                    <li>
+                        <a href="/registro">Registro</a>
+                        {% else%}
+                        <li class="usuName" style="color:white">{{ request.session.user }}</li>
+                        <li>
+                            <a href="desconectar/">Desconectar</a>
+                        </li>
+                        {%endif%}
+
+                    </li>
                     <li>
                         <a href="/contact">Contacto</a>
                     </li>
@@ -70,6 +82,7 @@
                     </div>
                     <div class="modal-body">
                         <form action="/" method="post">
+                            {% csrf_token %}
                             <div class="form-group">
                                 <input type="text" name="email" class="form-control" id="email-modal" placeholder="email">
                             </div>
@@ -95,11 +108,22 @@
         </div>
 
     </div>
-    
+    {% if message %}
+    <script type="text/javascript">
+        $(window).on('load', function () {
+            $('#error').modal('show');
+        });
+    </script> {% endif%}
     <div class="modal fade" id="error" tabindex="-1" role="dialog" aria-labelledby="Login" aria-hidden="true">
         <div class="modal-dialog modal-sm">
             <div class="modal-body">
-            
+                {% if message %}
+                <div class="col-md-12">
+                    <div class="alert alert-danger">
+                        <strong>{{ message }}</strong>
+                    </div>
+                </div>
+                {% endif%}
             </div>
         </div>
     </div>
@@ -117,8 +141,8 @@
             <div class="navbar-header">
 
                 <a class="navbar-brand home" href="/" data-animate-hover="bounce">
-                    <img src="{% static 'img/logo2.png' %}" height="55" width="170" alt="Digital Advance logo" class="hidden-xs">
-                    <img src="{% static 'img/Logo.png' %}" height="50" width="50"alt="Digital Advance logo" class="visible-xs">
+                    <img src="../static/img/logo2.png" height="55" width="170" alt="Digital Advance logo" class="hidden-xs">
+                    <img src="../static/img/Logo.png" height="50" width="50"alt="Digital Advance logo" class="visible-xs">
                     <span class="sr-only">Digital Advance - go to homepage</span>
                 </a>
                 <div class="navbar-buttons">
@@ -133,7 +157,11 @@
                     <a class="btn btn-default navbar-toggle" href="/basket">
                         <i class="fa fa-shopping-cart"></i>
                         <span class="hidden-xs">
-                
+                            {% if not request.session.carroDeCompra %}
+                                Tienes 0 productos en carro
+                            {% else %}
+                                Tienes {{request.session.carroDeCompra}} productos en carro
+                            {% endif %}
                             
                         </span>
                     </a>
@@ -161,7 +189,11 @@
                     <a href="/basket" class="btn btn-primary navbar-btn">
                         <i class="fa fa-shopping-cart"></i>
                         <span class="hidden-sm">
-                       
+                            {% if not request.session.carroDeCompra %}
+                                Tienes 0 productos en carro
+                            {% else %}
+                                Tienes {{request.session.carroDeCompra}} productos en carro
+                            {% endif %}
                         </span>
                     </a>
                 </div>
@@ -196,164 +228,165 @@
     <!-- /#navbar -->
 
     <!-- *** NAVBAR END *** -->
-{% block content %}
+    {% block content %}
+
+    {% endblock %}
+
+            <!-- *** FOOTER ***
+ _________________________________________________________ -->
+ <div id="footer" data-animate="fadeInUp">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <h4>Pages</h4>
+
+                <ul>
+                    <li>
+                        <a href="text.html">About us</a>
+                    </li>
+                    <li>
+                        <a href="text.html">Terms and conditions</a>
+                    </li>
+                    <li>
+                        <a href="faq.html">FAQ</a>
+                    </li>
+                    <li>
+                        <a href="contact.html">Contact us</a>
+                    </li>
+                </ul>
+
+                <hr>
+
+                <h4>User section</h4>
+
+                <ul>
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
+                    </li>
+                    <li>
+                        <a href="register.html">Regiter</a>
+                    </li>
+                </ul>
+
+                <hr class="hidden-md hidden-lg hidden-sm">
+
+            </div>
+            <!-- /.col-md-3 -->
+
+            <div class="col-md-3 col-sm-6">
+
+                <h4>Top categories</h4>
+
+                <h5>Men</h5>
+
+                <ul>
+                    <li>
+                        <a href="category.html">T-shirts</a>
+                    </li>
+                    <li>
+                        <a href="category.html">Shirts</a>
+                    </li>
+                    <li>
+                        <a href="category.html">Accessories</a>
+                    </li>
+                </ul>
+
+                <h5>Ladies</h5>
+                <ul>
+                    <li>
+                        <a href="category.html">T-shirts</a>
+                    </li>
+                    <li>
+                        <a href="category.html">Skirts</a>
+                    </li>
+                    <li>
+                        <a href="category.html">Pants</a>
+                    </li>
+                    <li>
+                        <a href="category.html">Accessories</a>
+                    </li>
+                </ul>
+
+                <hr class="hidden-md hidden-lg">
+
+            </div>
+            <!-- /.col-md-3 -->
+
+            <div class="col-md-3 col-sm-6">
+
+                <h4>Where to find us</h4>
+
+                <p>
+                    <strong>Digital Advance Ltd.</strong>
+                    <br>13/25 New Avenue
+                    <br>New Heaven
+                    <br>45Y 73J
+                    <br>England
+                    <br>
+                    <strong>Great Britain</strong>
+                </p>
+
+                <a href="contact.html">Go to contact page</a>
+
+                <hr class="hidden-md hidden-lg">
+
+            </div>
+            <!-- /.col-md-3 -->
 
 
-{% endblock %}
 
-<div id="footer" data-animate="fadeInUp">
-  <div class="container">
-      <div class="row">
-          <div class="col-md-3 col-sm-6">
-              <h4>Pages</h4>
+            <div class="col-md-3 col-sm-6">
 
-              <ul>
-                  <li>
-                      <a href="text.html">About us</a>
-                  </li>
-                  <li>
-                      <a href="text.html">Terms and conditions</a>
-                  </li>
-                  <li>
-                      <a href="faq.html">FAQ</a>
-                  </li>
-                  <li>
-                      <a href="contact.html">Contact us</a>
-                  </li>
-              </ul>
+                <h4>Get the news</h4>
 
-              <hr>
+                <p class="text-muted">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
 
-              <h4>User section</h4>
+                <form>
+                    <div class="input-group">
 
-              <ul>
-                  <li>
-                      <a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
-                  </li>
-                  <li>
-                      <a href="register.html">Regiter</a>
-                  </li>
-              </ul>
+                        <input type="text" class="form-control">
 
-              <hr class="hidden-md hidden-lg hidden-sm">
+                        <span class="input-group-btn">
 
-          </div>
-          <!-- /.col-md-3 -->
+                            <button class="btn btn-default" type="button">Subscribe!</button>
 
-          <div class="col-md-3 col-sm-6">
+                        </span>
 
-              <h4>Top categories</h4>
+                    </div>
+                    <!-- /input-group -->
+                </form>
 
-              <h5>Men</h5>
+                <hr>
 
-              <ul>
-                  <li>
-                      <a href="category.html">T-shirts</a>
-                  </li>
-                  <li>
-                      <a href="category.html">Shirts</a>
-                  </li>
-                  <li>
-                      <a href="category.html">Accessories</a>
-                  </li>
-              </ul>
+                <h4>Stay in touch</h4>
 
-              <h5>Ladies</h5>
-              <ul>
-                  <li>
-                      <a href="category.html">T-shirts</a>
-                  </li>
-                  <li>
-                      <a href="category.html">Skirts</a>
-                  </li>
-                  <li>
-                      <a href="category.html">Pants</a>
-                  </li>
-                  <li>
-                      <a href="category.html">Accessories</a>
-                  </li>
-              </ul>
-
-              <hr class="hidden-md hidden-lg">
-
-          </div>
-          <!-- /.col-md-3 -->
-
-          <div class="col-md-3 col-sm-6">
-
-              <h4>Where to find us</h4>
-
-              <p>
-                  <strong>Digital Advance Ltd.</strong>
-                  <br>13/25 New Avenue
-                  <br>New Heaven
-                  <br>45Y 73J
-                  <br>England
-                  <br>
-                  <strong>Great Britain</strong>
-              </p>
-
-              <a href="contact.html">Go to contact page</a>
-
-              <hr class="hidden-md hidden-lg">
-
-          </div>
-          <!-- /.col-md-3 -->
+                <p class="social">
+                    <a href="#" class="facebook external" data-animate-hover="shake">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="#" class="twitter external" data-animate-hover="shake">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="#" class="instagram external" data-animate-hover="shake">
+                        <i class="fa fa-instagram"></i>
+                    </a>
+                    <a href="#" class="gplus external" data-animate-hover="shake">
+                        <i class="fa fa-google-plus"></i>
+                    </a>
+                    <a href="#" class="email external" data-animate-hover="shake">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </p>
 
 
+            </div>
+            <!-- /.col-md-3 -->
 
-          <div class="col-md-3 col-sm-6">
+        </div>
+        <!-- /.row -->
 
-              <h4>Get the news</h4>
-
-              <p class="text-muted">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-
-              <form>
-                  <div class="input-group">
-
-                      <input type="text" class="form-control">
-
-                      <span class="input-group-btn">
-
-                          <button class="btn btn-default" type="button">Subscribe!</button>
-
-                      </span>
-
-                  </div>
-                  <!-- /input-group -->
-              </form>
-
-              <hr>
-
-              <h4>Stay in touch</h4>
-
-              <p class="social">
-                  <a href="#" class="facebook external" data-animate-hover="shake">
-                      <i class="fa fa-facebook"></i>
-                  </a>
-                  <a href="#" class="twitter external" data-animate-hover="shake">
-                      <i class="fa fa-twitter"></i>
-                  </a>
-                  <a href="#" class="instagram external" data-animate-hover="shake">
-                      <i class="fa fa-instagram"></i>
-                  </a>
-                  <a href="#" class="gplus external" data-animate-hover="shake">
-                      <i class="fa fa-google-plus"></i>
-                  </a>
-                  <a href="#" class="email external" data-animate-hover="shake">
-                      <i class="fa fa-envelope"></i>
-                  </a>
-              </p>
-
-
-          </div>
-          <!-- /.col-md-3 -->
-
-      </div>
-      <!-- /.row -->
-
-  </div>
-  <!-- /.container -->
+    </div>
+    <!-- /.container -->
 </div>
 <!-- /#footer -->
 
@@ -365,19 +398,19 @@
 <!-- *** COPYRIGHT ***
 _________________________________________________________ -->
 <div id="copyright">
-  <div class="container">
-      <div class="col-md-6">
-          <p class="pull-left">© 2015 Your name goes here.</p>
+    <div class="container">
+        <div class="col-md-6">
+            <p class="pull-left">© 2015 Your name goes here.</p>
 
-      </div>
-      <div class="col-md-6">
-          <p class="pull-right">Template by
-              <a href="https://bootstrapious.com/e-commerce-templates">Bootstrapious</a> &
-              <a href="https://fity.cz">Fity</a>
-              <!-- Not removing these links is part of the license conditions of the template. Thanks for understanding :) If you want to use the template without the attribution links, you can do so after supporting further themes development at https://bootstrapious.com/donate  -->
-          </p>
-      </div>
-  </div>
+        </div>
+        <div class="col-md-6">
+            <p class="pull-right">Template by
+                <a href="https://bootstrapious.com/e-commerce-templates">Bootstrapious</a> &
+                <a href="https://fity.cz">Fity</a>
+                <!-- Not removing these links is part of the license conditions of the template. Thanks for understanding :) If you want to use the template without the attribution links, you can do so after supporting further themes development at https://bootstrapious.com/donate  -->
+            </p>
+        </div>
+    </div>
 </div>
 <!-- *** COPYRIGHT END *** -->
 
@@ -392,36 +425,36 @@ _________________________________________________________ -->
 <!-- *** SCRIPTS TO INCLUDE ***
 _________________________________________________________ -->
 
-<script src="{% static 'js/bootstrap.min.js'%}"></script>
-<script src="{% static 'js/jquery.cookie.js'%}"></script>
-<script src="{% static 'js/waypoints.min.js'%}"></script>
-<script src="{% static 'js/modernizr.js'%}"></script>
-<script src="{% static 'js/bootstrap-hover-dropdown.js'%}"></script>
-<script src="{% static 'js/owl.carousel.min.js'%}"></script>
-<script src="{% static 'js/front.js'%}"></script>
+<script src="../static/js/bootstrap.min.js"></script>
+<script src="../static/js/jquery.cookie.js"></script>
+<script src="../static/js/waypoints.min.js"></script>
+<script src="../static/js/modernizr.js"></script>
+<script src="../static/js/bootstrap-hover-dropdown.js"></script>
+<script src="../static/js/owl.carousel.min.js"></script>
+<script src="../static/js/front.js"></script>
 
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
 
-  <script>
-      function initialize() {
-          var mapOptions = {
-              zoom: 15,
-              center: new google.maps.LatLng(-33.5983777, -70.7060444),
-              mapTypeId: google.maps.MapTypeId.ROAD,
-              scrollwheel: false
-          }
-          var map = new google.maps.Map(document.getElementById('map'),
-              mapOptions);
+    <script>
+        function initialize() {
+            var mapOptions = {
+                zoom: 15,
+                center: new google.maps.LatLng(-33.5983777, -70.7060444),
+                mapTypeId: google.maps.MapTypeId.ROAD,
+                scrollwheel: false
+            }
+            var map = new google.maps.Map(document.getElementById('map'),
+                mapOptions);
 
-          var myLatLng = new google.maps.LatLng(-33.5983777, -70.7060444);
-          var marker = new google.maps.Marker({
-              position: myLatLng,
-              map: map
-          });
-      }
+            var myLatLng = new google.maps.LatLng(-33.5983777, -70.7060444);
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map
+            });
+        }
 
-      google.maps.event.addDomListener(window, 'load', initialize);
-  </script>
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
 
 </body>
 

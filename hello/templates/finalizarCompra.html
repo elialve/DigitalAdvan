@@ -1,0 +1,49 @@
+{% extends "base.html" %} 
+{% block content %}
+  <div class="container">
+    <div class="section">
+      <div class="row">
+          <div class="alert alert-success">
+            <strong>{{ message }}</strong>
+          </div>
+          <form class="col s12" action="/agregarProducto" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="input-field col s6">
+                    <h4>Productos:</h4>
+                    <ul>         
+                        {% for row in session["carroDeCompra"]%}
+                            <li>{{row[0][1]}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-field col s6">
+                    <h4>Total a pagar: </h4>
+                    <ul>         
+                        <li>${{session["precioTotal"]}}</li>
+                    </ul>            
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-field col s6">
+                        <label>Medio de pago</label>
+                        <select name="medioDePago" class="form-control" id="medioDePago" required>
+                            {% for row in medioPago %}
+                                <option value="{{row[0]}}">{{row[1]}}</option>
+                            {% endfor %}
+                        </select>  
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-field col s6">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Pagar</button>
+                    <a class="btn btn-primary" href="/">Volver</a>
+                </div>
+            </div>
+          </form>
+        </div>
+    </div>
+  </div>
+
+  {% endblock %}

@@ -1,9 +1,8 @@
-<h1>Hey aqui hay comunas</h1>
-<div class="form-group">
-    <label for="email">Comuna</label>
-    <select name="comuna" class="form-control" id="comuna">
-        {% for abc in obj %}
-          <option value="">{{abc.nombre_comuna}}</option>
+{% extends "base.html" %}
+{% block content %}
+    <select name="" id="">
+        {% for row in comuna %}
+            <option value="{{row[0]}}">{{row[2]}}</option>
         {% endfor %}
     </select>
-</div>
+{% endblock %}
